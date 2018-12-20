@@ -98,12 +98,12 @@ def unconfirmed():
 @app.route('/resend')
 @login_required
 def resend_email_confirmation():
-    token = generate_confirmation_token(form.email.data)
+    token = generate_confirmation_token(current_user.email)
 
     confirm_url = url_for('confirm_email', token=token, _external=True)
     html = render_template('user/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
-    send_email_sendgrid(user.email, subject, html)    
+    send_email_sendgrid(current_user.email, subject, html)    
     
     flash('A new confirmation email has been sent.', 'success')
 
