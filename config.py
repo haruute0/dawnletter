@@ -14,4 +14,4 @@ class Config(object):
 
     # Flask-WTF
 
-    SECRET_KEY = os.environ.get('DATABASE_URL', None)
+    SECRET_KEY = os.environ.get('SECRET_KEY', None)
