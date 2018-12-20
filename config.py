@@ -15,3 +15,12 @@ class Config(object):
     # Flask-WTF
 
     SECRET_KEY = os.environ.get('SECRET_KEY', None)
+
+    # Email confirmation config
+
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT', None)
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'from@example.com')
+
+    # mail settings
+    
+    SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)

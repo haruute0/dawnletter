@@ -122,3 +122,4 @@ creds/
 
 # Flask Env
 .flaskenv
+sendgrid.env
