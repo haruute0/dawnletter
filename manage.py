@@ -17,8 +17,7 @@ def drop_db():
 def create_admin():
     user = User(
         username="admin",
-        email="admin@admin.com",
-        confirmed=True
+        email="admin@admin.com"
         )
     user.set_uuid()
     user.set_password(
