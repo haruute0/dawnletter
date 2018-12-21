@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.token import generate_confirmation_token, confirm_token
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, ChangePassword
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from app.email import send_email_sendgrid
@@ -108,3 +108,30 @@ def resend_email_confirmation():
     flash('A new confirmation email has been sent.', 'success')
 
     return redirect(url_for('unconfirmed'))
+
+@app.route('/profile')
+@login_required
+@check_confirmed
+def profile():
+    return render_template('profile.html')
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+@check_confirmed
+def change_password():
+    form = ChangePassword()
+    if form.validate_on_submit():
+        if current_user.check_password(form.oldPassword.data):
+            user = User.query.filter_by(username=current_user.username).first()
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            print("{} change their password with {}".format(current_user.username, form.password.data))
+            logout_user()
+            flash('Change password success', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Old password wrong', 'error')
+            return redirect(url_for('change_password'))
+
+    return render_template('change_password.html', form=form)
