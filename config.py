@@ -9,7 +9,7 @@ class Config(object):
 
     # PostgreSQL
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', None)
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', None)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Flask-WTF
