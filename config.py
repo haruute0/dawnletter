@@ -7,6 +7,11 @@ load_dotenv(dotenv_path)
 
 class Config(object):
 
+    # Dir
+
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    COV_DIR = os.path.join(BASE_DIR, 'tmp/coverage')
+
     # PostgreSQL
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', None)
@@ -24,3 +29,9 @@ class Config(object):
     # mail settings
     
     SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
+
+class TestingConfig(Config):
+    
+    DEBUG = True
+    TESTING = True
+    WTF_CSRF_ENABLED = False
