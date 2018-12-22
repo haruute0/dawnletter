@@ -8,11 +8,7 @@ python:
   - "3.6"
 
 addons:
-    postgresql: '10'
-    apt:
-        packages:
-        - postgresql-10
-        - postgresql-client-10
+  postgresql: "9.5"
 
 before_install:
   - psql -c "CREATE USER travis WITH PASSWORD 'travis'" -U postgres
