@@ -20,7 +20,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    POSTGRES_ADMIN_URI = "postgresql://postgres:postgres@localhost/postgres"
+    POSTGRES_ADMIN_URI = os.environ.get(TRAVIS_POSTGRES_ADMIN_URI, "postgresql://postgres:postgres@localhost/postgres")
 
     ADMIN_SQL_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'admin', 'sql')
 

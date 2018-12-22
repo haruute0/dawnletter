@@ -13,6 +13,10 @@ addons:
       - postgresql-10-postgis-2.4-scripts
       - postgresql-client-10
 
+before_install:
+  - sudo -u postgres psql -c "CREATE USER travis WITH PASSWORD 'travis'"
+  - sudo -u postgres psql -c "ALTER ROLE travis SUPERUSER"
+
 install:
   - pip install -r requirements.txt
 
