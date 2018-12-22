@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/haruute0/dawnletter.svg?branch=v2)](https://travis-ci.org/haruute0/dawnletter)
