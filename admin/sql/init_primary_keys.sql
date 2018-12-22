@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE "User" ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+COMMIT;
