@@ -19,7 +19,7 @@ def initialize_db_conn(conn_url):
     while True:
         try:
             engine = create_engine(conn_url, poolclass=NullPool)
-            print("Database connection estabilished!")
+            print("Database connection estabilished!") 
             break
         except psycopg2.OperationalError as e:
             print("Database connection couldn't estabilished.")

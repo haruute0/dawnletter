@@ -14,7 +14,10 @@ class Config(object):
 
     # PostgreSQL
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', None)
+    SQLALCHEMY_DATABASE_URI = "postgres://dawnletter:dawnletter@localhost/dawnletter"
+
+    SQLALCHEMY_TEST_DATABASE_URI = "postgres://test_dawnletter:test_dawnletter@localhost/test_dawnletter"
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     POSTGRES_ADMIN_URI = "postgresql://postgres:postgres@localhost/postgres"

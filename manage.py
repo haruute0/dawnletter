@@ -19,13 +19,50 @@ def test():
 
 @manager.command
 def cov():
-    """Runs the unit tests with coverage."""
+
+    print ('Running Test and Coverage Test...')
+
+    print ('Running Database Setup...')
+
+    db.initialize_db_conn(Config.POSTGRES_ADMIN_URI)
+
+    print ('Creating user and database...')
+    
+    res = db.run_script_init(os.path.join(Config.ADMIN_SQL_DIR, 'init_test_database.sql'))
+    if not res:
+        raise Exception('Falied to create new database and user Exit code: %i' % res)
+
+    db.initialize_db_conn(Config.SQLALCHEMY_TEST_DATABASE_URI)
+
+    print ('Creating tables...')
+    db.run_script(os.path.join(Config.ADMIN_SQL_DIR, 'init_table.sql'))
+
+    print ('Creating primary keys...')
+    db.run_script(os.path.join(Config.ADMIN_SQL_DIR, 'init_primary_keys.sql'))
+
+    print('Task init_test_db done')
+
+    print ('Running Test...')
+    
     cov = coverage.coverage(branch=True, include='app/*')
     cov.start()
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
     cov.stop()
     cov.save()
+    
+    print ('Deleting tables...')
+    db.run_script(os.path.join(Config.ADMIN_SQL_DIR, 'drop_table.sql'))
+
+    db.initialize_db_conn(Config.POSTGRES_ADMIN_URI)
+
+    print ('Deleting user and database...')
+    
+    res = db.run_script_init(os.path.join(Config.ADMIN_SQL_DIR, 'drop_test_database.sql'))
+    if not res:
+        raise Exception('Falied to delete database and user Exit code: %i' % res)
+
+
     print('Coverage Summary:')
     cov.report()
     cov.html_report()
