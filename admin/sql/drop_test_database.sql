@@ -1,2 +1,2 @@
-DROP DATABASE IF EXIST test_dawnletter;
-DROP USER IF EXIEST test_dawnletter;
+DROP DATABASE IF EXISTS test_dawnletter;
+DROP USER IF EXISTS test_dawnletter;

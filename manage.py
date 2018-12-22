@@ -1,36 +1,11 @@
-from app import migrate, manager
-from flask_migrate import MigrateCommand
+from app import manager
 from app import app, db
-from app.models import User
 from config import Config
 
 import unittest
 import coverage
 
-manager.add_command('db', MigrateCommand)
-
-@manager.command
-def create_db():
-    db.create_all()
-
-@manager.command
-def drop_db():
-    db.drop_all()
-
-@manager.command
-def create_admin():
-    user = User(
-        username="admin",
-        email="admin@admin.com"
-        )
-    user.set_uuid()
-    user.set_password(
-        password="admin"
-        )
-    user.get_time_stamp()
-    user.get_confirmed()
-    db.session.add(user)
-    db.session.commit()
+import os
 
 @manager.command
 def test():
@@ -54,6 +29,28 @@ def cov():
     print('Coverage Summary:')
     cov.report()
     cov.html_report()
+
+@manager.command
+def init_user_db():
+    db.initialize_db_conn(Config.POSTGRES_ADMIN_URI)
+
+    print ('Creating user and database...')
+    
+    res = db.run_script_init(os.path.join(Config.ADMIN_SQL_DIR, 'init_database.sql'))
+    if not res:
+        raise Exception('Falied to create new database and user Exit code: %i' % res)
+
+@manager.command
+def init_db():
+    db.initialize_db_conn(Config.SQLALCHEMY_DATABASE_URI)
+
+    print ('Creating tables...')
+    db.run_script(os.path.join(Config.ADMIN_SQL_DIR, 'init_table.sql'))
+
+    print ('Creating primary keys...')
+    db.run_script(os.path.join(Config.ADMIN_SQL_DIR, 'init_primary_keys.sql'))
+
+    print('Task init_db done')
 
 if __name__ == '__main__':
     manager.run()

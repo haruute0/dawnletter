@@ -17,6 +17,10 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', None)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    POSTGRES_ADMIN_URI = "postgresql://postgres:postgres@localhost/postgres"
+
+    ADMIN_SQL_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'admin', 'sql')
+
     # Flask-WTF
 
     SECRET_KEY = os.environ.get('SECRET_KEY', None)
